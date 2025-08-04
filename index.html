@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+ <html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Future Vision: Activating - DwarfEye</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Exo+2:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* CSS Variables: Consistent with the bright theme */
+    :root {
+      --logo-purple: #8A2BE2; /* A strong, vibrant purple */
+      --logo-cyan: #00FFFF;   /* A bright, pure cyan */
+      --background-light: #F0F5F9; /* Very light, almost white background */
+      --background-medium: #E0E5E9; /* Slightly darker for subtle depth */
+      --text-dark: #2C3E50;       /* Dark, professional text */
+      --text-light: #FFFFFF;     /* White text for contrast on darker elements */
+      --accent-gray: #BDC3C7;    /* Subtle gray for lines/borders */
+      --gradient-start: #D8F0FF; /* Lighter blue for radial gradient start */
+      --gradient-end: #CCEEFF;   /* Slightly darker blue for radial gradient end */
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      /* Changed to radial gradient for the bright theme */
+      background: radial-gradient(circle at center, var(--gradient-start) 0%, var(--gradient-end) 50%, var(--background-light) 100%);
+      color: var(--text-dark); /* Changed text color for bright theme */
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Orbitron', sans-serif;
+      overflow: hidden;
+      position: relative;
+      perspective: 1000px;
+    }
+
+    .particles {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      overflow: hidden;
+    }
+
+    .particle {
+      position: absolute;
+      /* Changed particle color for bright theme, more subtle */
+      background: rgba(138, 43, 226, 0.2); /* Purple with transparency */
+      border-radius: 50%;
+      animation: float var(--duration) infinite ease-in-out;
+      filter: blur(1px);
+      /* Changed particle shadow for bright theme */
+      box-shadow: 0 0 5px rgba(0, 255, 255, 0.3); /* Cyan glow */
+    }
+
+    .grid {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      /* Changed grid lines and opacity for bright theme */
+      background-image: 
+        linear-gradient(rgba(138, 43, 226, 0.08) 1px, transparent 1px), /* Subtle purple lines */
+        linear-gradient(90deg, rgba(138, 43, 226, 0.08) 1px, transparent 1px);
+      background-size: 50px 50px;
+      z-index: -1;
+      opacity: 0.15; /* Reduced opacity for subtlety */
+      animation: gridPulse 8s infinite alternate;
+    }
+
+    .scan-line {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      /* Changed scan-line color for bright theme */
+      background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.5), transparent); /* Cyan glow */
+      /* Changed scan-line shadow for bright theme */
+      box-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
+      animation: scan 4s linear infinite;
+      z-index: 1;
+      opacity: 0.7;
+    }
+
+    .container {
+      text-align: center;
+      position: relative;
+      z-index: 10;
+      max-width: 90%;
+      padding: 40px;
+      /* Changed container background for bright theme */
+      background: rgba(255, 255, 255, 0.95); /* Mostly opaque white */
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      /* Changed container border for bright theme */
+      border: 1px solid var(--accent-gray);
+      /* Changed container shadow for bright theme */
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.1), /* Soft shadow */
+                  0 0 80px rgba(0, 255, 255, 0.1), /* Subtle cyan glow */
+                  inset 0 0 20px rgba(255, 255, 255, 0.5); /* Inner light effect */
+      transform-style: preserve-3d;
+      animation: floatContainer 8s infinite ease-in-out;
+    }
+
+    .logo { /* This class is applied to the div containing the image */
+      margin: 0 auto 30px;
+      width: 220px; /* Kept original size from provided code */
+    }
+
+    .logo img {
+      width: 100%;
+      height: auto;
+      display: block;
+      /* Changed filter for logo image glow */
+      filter: drop-shadow(0 0 15px var(--logo-cyan)) drop-shadow(0 0 15px var(--logo-purple));
+      /* Added pulse animation for logo */
+      animation: logoBrightPulse 3s infinite alternate;
+    }
+
+    .main-heading {
+      font-size: 3.5rem;
+      margin: 20px 0;
+      /* Changed color for bright theme */
+      color: var(--logo-purple);
+      /* Changed text shadow for bright theme */
+      text-shadow: 0 0 8px rgba(138, 43, 226, 0.3), 0 0 15px rgba(0, 255, 255, 0.2);
+      animation: fadeIn 2s ease-in-out, blinkHeading 2.5s infinite alternate; /* Renamed blinkText to blinkHeading for consistency */
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    .text {
+      font-size: 1.8rem;
+      
+    }
+
+    
+    .tagline {
+      margin-top: 25px;
+      font-size: 1.4rem;
+      /* Changed color for bright theme */
+      color: var(--text-dark); /* Dark text */
+      letter-spacing: 1px;
+      font-family: 'Exo 2', sans-serif;
+      line-height: 1.8;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+      position: relative;
+      padding: 15px;
+      white-space: normal; /* Allow natural wrapping if needed */
+    }
+
+    .tagline span {
+      
+      font-weight: 600;
+      text-shadow: 0 0 5px rgba(138, 43, 226, 0.2); /* Subtle purple glow */
+      display: inline; /* Keep spans inline for single line */
+    }
+    
+    .tagline span + span {
+        margin-left: 0.4em; /* Small space between words when next to each other */
+    }
+
+
+    .progress-container {
+      width: 100%;
+      max-width: 500px;
+      height: 10px;
+      /* Changed background and border for bright theme */
+      background: var(--background-medium);
+      border-radius: 10px;
+      margin: 40px auto 20px;
+      overflow: hidden;
+      position: relative;
+      border: 1px solid var(--accent-gray);
+      /* Changed box-shadow for bright theme */
+      box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0;
+      /* Changed background for bright theme */
+      background: linear-gradient(90deg, var(--logo-purple), var(--logo-cyan), var(--logo-purple));
+      border-radius: 10px;
+      animation: progress 4s infinite ease-in-out;
+      /* Changed box-shadow for bright theme */
+      box-shadow: 0 0 10px var(--logo-cyan);
+    }
+
+    .progress-text {
+      /* Changed color for bright theme */
+      color: var(--logo-purple);
+      font-size: 0.9rem;
+      letter-spacing: 2px;
+      margin-top: 10px;
+      animation: fadeIn 5s ease-in-out;
+    }
+
+    .social-links {
+      margin-top: 40px;
+      display: flex;
+      justify-content: center;
+      gap: 25px;
+      flex-wrap: wrap;
+    }
+
+    .social-link {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-decoration: none;
+      /* Changed color for bright theme */
+      color: var(--text-dark);
+      transition: all 0.4s ease;
+      width: 80px;
+    }
+
+    .social-icon {
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      /* Changed background and border for bright theme */
+      background: var(--background-medium);
+      border-radius: 50%;
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+      border: 1px solid var(--accent-gray);
+      transition: all 0.4s ease;
+      position: relative;
+      z-index: 1;
+      overflow: hidden;
+      /* Changed color for bright theme */
+      color: var(--text-dark);
+    }
+
+    .social-icon::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      /* Changed background for bright theme */
+      background: linear-gradient(45deg, var(--logo-purple), var(--logo-cyan));
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      z-index: -1;
+    }
+
+    .social-link:hover .social-icon {
+      transform: translateY(-8px);
+      /* Changed color for bright theme */
+      color: var(--text-light); /* White on hover */
+      /* Changed box-shadow for bright theme */
+      box-shadow: 0 0 15px var(--logo-cyan);
+    }
+
+    .social-link:hover .social-icon::before {
+      opacity: 1;
+    }
+
+    .social-name {
+      font-size: 0.8rem;
+      font-family: 'Exo 2', sans-serif;
+      letter-spacing: 1px;
+      opacity: 0.8;
+      transition: opacity 0.4s ease;
+    }
+
+    .social-link:hover .social-name {
+      opacity: 1;
+      /* Changed color for bright theme */
+      color: var(--logo-purple);
+    }
+
+  
+
+    /* Animations - Updated color references for bright theme */
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0); }
+      25% { transform: translate(10px, 15px); }
+      50% { transform: translate(20px, -10px); }
+      75% { transform: translate(-15px, 10px); }
+    }
+
+    @keyframes gridPulse {
+      0% { opacity: 0.08; } /* Reduced for subtlety */
+      100% { opacity: 0.15; } /* Reduced for subtlety */
+    }
+
+    @keyframes scan {
+      0% { top: 0%; }
+      100% { top: 100%; }
+    }
+
+    @keyframes floatContainer {
+      0%, 100% { transform: translateY(0) rotateX(0deg) rotateY(0deg); }
+      25% { transform: translateY(-10px) rotateX(2deg) rotateY(1deg); }
+      50% { transform: translateY(0) rotateX(0deg) rotateY(0deg); }
+      75% { transform: translateY(-8px) rotateX(-1deg) rotateY(-2deg); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes blinkHeading { /* Original blinkHeading for bright theme */
+      0%, 100% { text-shadow: 0 0 8px rgba(138, 43, 226, 0.3), 0 0 15px rgba(0, 255, 255, 0.2); }
+      50% { text-shadow: 0 0 12px rgba(138, 43, 226, 0.6), 0 0 25px rgba(0, 255, 255, 0.4); }
+    }
+    
+    @keyframes logoBrightPulse { /* Added from previous bright theme */
+      0% { transform: scale(1); filter: drop-shadow(0 0 15px var(--logo-cyan)) drop-shadow(0 0 15px var(--logo-purple)); }
+      100% { transform: scale(1.02); filter: drop-shadow(0 0 20px var(--logo-cyan)) drop-shadow(0 0 20px var(--logo-purple)); }
+    }
+
+    @keyframes typing {
+      from { width: 0; }
+      to { width: 100%; }
+    }
+
+    @keyframes cursor {
+      0%, 100% { opacity: 0; }
+      50% { opacity: 1; }
+    }
+
+    @keyframes progress {
+      0%, 100% { width: 30%; }
+      50% { width: 85%; }
+    }
+
+    @keyframes notify {
+      0%, 100% { opacity: 0; transform: translateY(20px); }
+      10%, 90% { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Cursor Light Effect (Re-added from previous bright theme for consistency) */
+    .cursor-light {
+      position: fixed;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(0, 255, 255, 0.1) 0%, transparent 60%);
+      border-radius: 50%;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      z-index: -1;
+      opacity: 0.6;
+      transition: opacity 0.3s ease;
+    }
+
+    /* Responsive adjustments - Kept from provided code */
+    @media (max-width: 768px) {
+      .main-heading {
+        font-size: 2.5rem;
+      }
+      
+      .vision-text {
+        font-size: 1.5rem;
+      }
+      
+      .tagline {
+        font-size: 1.2rem;
+      }
+      
+      .container {
+        padding: 25px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .main-heading {
+        font-size: 2rem;
+      }
+      
+      .vision-text {
+        font-size: 1.2rem;
+      }
+      
+      .tagline {
+        font-size: 1rem;
+      }
+      
+      .social-links {
+        gap: 15px;
+      }
+    }
+  </style>
+ </head>
+ <body>
+  <div class="cursor-light" id="cursor-light"></div>
+
+  <div class="particles" id="particles"></div>
+  <div class="grid"></div>
+  <div class="scan-line"></div>
+
+  <div class="container">
+    <div class="logo">
+      <img src="logoo.png" alt="DwarfEye AI Logo">
+      </div>
+
+    <h1 class="main-heading">FUTURE VISION : ACTIVATING...</h1>
+    <div class="text">DWARF EYE AI SYSTEMS</div>
+
+    <div class="tagline">
+      <span>The Eye Sees.</span> 
+      <span>The Brain Constructs.</span> 
+      <span>A New Intelligence is About to Begin.</span> 
+    </div>
+
+    <div class="progress-container">
+      <div class="progress-bar"></div>
+    </div>
+    <div class="progress-text">SYSTEM INITIALIZATION IN PROGRESS</div>
+
+    <div class="social-links">
+      <a href="#" class="social-link">
+        <div class="social-icon"><i class="fab fa-twitter"></i></div>
+        <div class="social-name">Twitter</div>
+      </a>
+      <a href="#" class="social-link">
+        <div class="social-icon"><i class="fab fa-linkedin-in"></i></div>
+        <div class="social-name">LinkedIn</div>
+      </a>
+      <a href="#" class="social-link">
+        <div class="social-icon"><i class="fab fa-facebook-f"></i></div>
+        <div class="social-name">Facebook</div>
+      </a>
+      
+      <a href="#" class="social-link">
+        <div class="social-icon"><i class="fas fa-envelope"></i></div>
+        <div class="social-name">Email</div>
+      </a>
+    </div>
+  </div>
+
+  
+
+  <script>
+    const particlesContainer = document.getElementById('particles');
+    const particleCount = 60;
+    
+    for (let i = 0; i < particleCount; i++) {
+      const particle = document.createElement('div');
+      particle.classList.add('particle');
+      const size = Math.random() * 3 + 1;
+      const posX = Math.random() * 100;
+      const posY = Math.random() * 100;
+      const duration = 5 + Math.random() * 10;
+      const delay = Math.random() * 5;
+      
+      particle.style.width = `${size}px`;
+      particle.style.height = `${size}px`;
+      particle.style.left = `${posX}%`;
+      particle.style.top = `${posY}%`;
+      particle.style.opacity = Math.random() * 0.4 + 0.2;
+      particle.style.setProperty('--duration', `${duration}s`);
+      particle.style.animationDelay = `${delay}s`;
+      
+      particlesContainer.appendChild(particle);
+    }
+
+    document.addEventListener('mousemove', (e) => {
+      const container = document.querySelector('.container');
+      const xAxis = (window.innerWidth / 2 - e.pageX) / 30;
+      const yAxis = (window.innerHeight / 2 - e.pageY) / 30;
+      container.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+
+      // Update cursor light position
+      const cursorLight = document.getElementById('cursor-light');
+      if (cursorLight) {
+        cursorLight.style.left = `${e.pageX}px`;
+        cursorLight.style.top = `${e.pageY}px`;
+      }
+    });
+
+    const visionText = document.querySelector('.vision-text');
+    // Ensure the typing animation resets on load for correct effect
+    visionText.style.width = '0'; 
+    visionText.style.whiteSpace = 'nowrap'; /* Ensure it starts as a single line */
+    visionText.style.overflow = 'hidden';
+
+    // Set timeout to start the typing animation
+    setTimeout(() => {
+      visionText.style.animation = 'typing 5s steps(40) 1s forwards';
+    }, 1000); // 1-second delay before typing starts
+
+    // Simulate AI voice on page load
+    window.addEventListener('load', () => {
+      const voices = window.speechSynthesis.getVoices();
+      if (voices.length > 0) {
+        const utterance = new SpeechSynthesisUtterance("DwarfEye activation sequence initiated. Neural networks online. Preparing for cognitive engagement.");
+        // Attempt to find a US English male voice, fallback to any available
+        utterance.voice = voices.find(v => v.name.includes('Google US English Male') || v.lang === 'en-US') || voices.length > 0 ? voices[0] : null;
+        if (utterance.voice) {
+          utterance.rate = 0.9; // Slightly slower speech
+          utterance.pitch = 0.8; // Deeper voice
+          window.speechSynthesis.speak(utterance);
+        }
+      }
+    });
+  </script>
+ </body>
+ </html>
